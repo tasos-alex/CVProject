@@ -1,4 +1,4 @@
-import cv2           #OpenVB
+import cv2           #OpenVB version 4.1.1
 import numpy as np   #Numpy για αριθμητικές πράξεις με πίνακες
 
 image_filename = 'NF6.png'
