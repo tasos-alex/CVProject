@@ -41,14 +41,16 @@ sift = cv2.xfeatures2d.SIFT_create()
 #creating a list to save the keypoints of each image
 #creating a list to save the images with keypoints shown
 sift_keypoints = []
+sift_descriptors = []
 sift_kp_images = []
 
 #detection of keypoints in every gray image
 #drawing the keypoints on the correspoding image
 #saving the new image in the list
 for gray in grays:
-    kp = sift.detect(gray, None)
+    kp, des = sift.detectAndCompute(gray, None)
     sift_keypoints.append(kp)
+    sift_descriptors.append(des)
     img = cv2.drawKeypoints(gray, kp, gray)
     sift_kp_images.append(img)
 
@@ -60,7 +62,7 @@ for index, kp_image in enumerate(sift_kp_images):
     ind = str(index)
     txt = 'sift_keypoints' + ind + '.jpg'
     cv2.imwrite(txt, kp_image)
-    cv2.imshow('keypoints' +ind , kp_image)
+    cv2.imshow('sift keypoints' +ind , kp_image)
     cv2.waitKey(0)
 
 
@@ -73,3 +75,33 @@ for index, kp_image in enumerate(sift_kp_images):
 #------------------SURF-------------------------------
 #-----------------------------------------------------
 #-----------------------------------------------------
+
+#surf object
+surf = cv2.xfeatures2d.SURF_create(500)
+#surf.hessianThreshold = 50000
+
+#creating a list to save the keypoints of each image
+#creating a list to save the images with keypoints shown
+surf_keypoints = []
+surf_descriptors = []
+surf_kp_images = []
+
+
+#detection of keypoints in every gray image
+#drawing the keypoints on the correspoding image
+#saving the new image in the list
+for gray in grays2:
+    kp, des = surf.detectAndCompute(gray, None)
+    surf_keypoints.append(kp)
+    surf_descriptors.append(des)
+    img = cv2.drawKeypoints(gray, kp, None, (255, 0, 0), 4)
+    surf_kp_images.append(img)
+    #plt.imshow(img), plt.show()
+
+#creating jpg images with the keypoints drawn, saving and showing them
+for index, kp_image in enumerate(surf_kp_images):
+    ind = str(index)
+    txt = 'surf_keypoints' + ind + '.jpg'
+    cv2.imwrite(txt, kp_image)
+    cv2.imshow('surf keypoints' +ind , kp_image)
+    cv2.waitKey(0)
